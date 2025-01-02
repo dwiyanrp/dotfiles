@@ -1,0 +1,7 @@
+[[session]]
+name = "config/tmux"
+path = "~/.config/tmux"
+
+[[session]]
+name = "go/github/dwiyanrp"
+path = "~/c/go/src/github.com/dwiyanrp"
