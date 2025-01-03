@@ -10,3 +10,9 @@ with_child = true
 name = "go/github/dwiyanrp"
 path = "~/c/go/src/github.com/dwiyanrp"
 with_child = true
+
+[[session]]
+name = "js"
+path = "~/c/js"
+with_child = true
+
