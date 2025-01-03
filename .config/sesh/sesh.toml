@@ -1,7 +1,12 @@
+[default_session]
+preview_command = "eza -l --git --icons --no-permissions --color=always --no-filesize --no-user --no-time {}"
+
 [[session]]
-name = "config/tmux"
-path = "~/.config/tmux"
+name = "config"
+path = "~/.config"
+with_child = true
 
 [[session]]
 name = "go/github/dwiyanrp"
 path = "~/c/go/src/github.com/dwiyanrp"
+with_child = true

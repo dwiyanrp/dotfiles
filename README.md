@@ -1,9 +1,9 @@
 # dotfiles
 all configuration files for my machine
 
-requires tmux fzf zoxide
+requires tmux fzf eza
 ```
-brew install tmux fzf zoxide
+brew install tmux fzf eza
 ```
 
 to clone it 

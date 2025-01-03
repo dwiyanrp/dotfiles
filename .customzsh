@@ -2,9 +2,6 @@
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh # zsh theme
 [[ ! -f ~/.gvm/scripts/gvm ]] || source ~/.gvm/scripts/gvm # go version manager
 
-# eval
-eval "$(zoxide init zsh)"
-
 # export
 export GOPATH=/Users/dwiyanrp/c/go
 export PATH="$GOPATH/bin:$PATH"
