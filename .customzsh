@@ -13,14 +13,18 @@ bindkey -s ^f "~/sesh-connect.sh\n"
 # alias
 alias cd-dwiyanrp="cd $GOPATH/src/github.com/dwiyanrp"
 alias cd-ghostty-themes="cd /Applications/Ghostty.app/Contents/Resources/ghostty/themes/"
-
-alias ln-config="ln -sf ~/dotfiles/.config/* ~/.config/"
-alias ln-sesh="ln -sf ~/dotfiles/.config/sesh/* ~/.config/sesh/"
-alias ln-tmux="ln -sf ~/dotfiles/.config/tmux/* ~/.config/tmux/ && tmux source ~/.config/tmux/tmux.conf"
-
 alias nvim-customzsh="nvim ~/.customzsh && source ~/.customzsh"
 alias nvim-dotfiles="nvim ~/dotfiles/"
 alias nvim-ghostty="nvim ~/.config/ghostty/config"
 alias nvim-nvim="nvim ~/.config/nvim/"
 alias nvim-sesh="nvim ~/.config/sesh/sesh.toml"
 alias nvim-tmux="nvim ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf"
+
+function ln-config() {
+  local dotfiles_dir="$HOME/dotfiles/.config"
+  local config_dir="$HOME/.config"
+
+  for app in tmux sesh; do
+    ln -sf "$dotfiles_dir/$app" "$config_dir"
+  done
+}

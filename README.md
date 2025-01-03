@@ -20,3 +20,8 @@ add the following to your .zshrc
 echo 'source ~/.customzsh' >> ~/.zshrc
 source ~/.customzsh
 ```
+
+execute symlink script
+```
+ln-config
+```
