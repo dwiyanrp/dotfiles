@@ -1,0 +1,18 @@
+theme = Afterglow
+background = #1f2430
+palette = 4=#3f953a
+palette = 6=#8ef9fd
+
+font-family = JetBrainsMono NFM Bold
+mouse-hide-while-typing = true
+
+font-size = 13.5
+
+# keybind
+keybind = cmd+backspace=text:\x15
+
+# split
+keybind = cmd+s>j=goto_split:bottom
+keybind = cmd+s>k=goto_split:top
+keybind = cmd+s>h=goto_split:left
+keybind = cmd+s>l=goto_split:right
