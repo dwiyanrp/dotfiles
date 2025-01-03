@@ -6,6 +6,15 @@ requires tmux fzf eza
 brew install tmux fzf eza
 ```
 
+requires sesh
+```
+mkdir -p $GOPATH/src/github.com/joshmedeski
+cd $GOPATH/src/github.com/joshmedeski
+git clone -b 16-preview-support git@github.com:dwiyanrp/sesh.git
+cd sesh
+go install
+```
+
 to clone it 
 
 ```
