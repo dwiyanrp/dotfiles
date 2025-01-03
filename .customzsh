@@ -24,7 +24,7 @@ function ln-config() {
   local dotfiles_dir="$HOME/dotfiles/.config"
   local config_dir="$HOME/.config"
 
-  for app in tmux sesh; do
+  for app in tmux sesh ghostty; do
     ln -sf "$dotfiles_dir/$app" "$config_dir"
   done
 }
