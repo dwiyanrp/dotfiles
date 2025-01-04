@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Get the selected session using fzf-tmux
 selected_session=$(sesh list -tc --icons | fzf-tmux -p 80%,70% \
@@ -18,6 +18,4 @@ selected_session=$(sesh list -tc --icons | fzf-tmux -p 80%,70% \
 if [[ -n "$selected_session" ]]; then
   # Connect to the selected session
   sesh connect "$selected_session"
-else
-  echo "No session selected."
 fi
