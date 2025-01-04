@@ -21,7 +21,7 @@ to clone it
 cd
 git clone git@github.com:dwiyanrp/dotfiles.git
 ln -sf dotfiles/.customzsh
-ln -sf dotfiles/.config/sesh/sesh-connect.sh
+ln -sf dotfiles/sesh-connect.sh
 ```
 
 add the following to your .zshrc
