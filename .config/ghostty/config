@@ -6,7 +6,7 @@ palette = 6=#8ef9fd
 font-family = JetBrainsMono NFM Bold
 mouse-hide-while-typing = true
 
-font-size = 13.5
+font-size = 14
 
 # keybind
 keybind = cmd+backspace=text:\x15
