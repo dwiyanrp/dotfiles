@@ -1,11 +1,14 @@
 # init
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh # zsh theme
 [[ ! -f ~/.gvm/scripts/gvm ]] || source ~/.gvm/scripts/gvm # go version manager
+[ -s "/Users/dwiyanrp/.bun/_bun" ] && source "/Users/dwiyanrp/.bun/_bun" # bun completions
 
 # export
 export GOPATH=/Users/dwiyanrp/c/go
 export PATH="$GOPATH/bin:$PATH"
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
 # bindkey
 bindkey -s ^f "~/sesh-connect.sh\n"
