@@ -1,5 +1,5 @@
 [default_session]
-startup_command = "tmux new-window -d && clear"
+startup_command = "tmux split-window -p 20 -d && clear"
 preview_command = "eza -l --git --icons --no-permissions --color=always --no-filesize --no-user --no-time {}"
 
 [[session]]
