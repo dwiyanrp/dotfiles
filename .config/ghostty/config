@@ -1,12 +1,21 @@
+# theme
 theme = Afterglow
+background-opacity = 0.92
 background = #1f2430
 palette = 4=#3f953a
 palette = 6=#8ef9fd
 
+# font
 font-family = JetBrainsMono NFM Bold
-mouse-hide-while-typing = true
-
 font-size = 14
+
+# window
+window-height = 71
+window-width = 140
+window-save-state = always
+
+# mouse
+mouse-hide-while-typing = true
 
 # keybind
 keybind = cmd+backspace=text:\x15
