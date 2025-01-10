@@ -10,7 +10,7 @@ requires sesh
 ```
 mkdir -p $GOPATH/src/github.com/joshmedeski
 cd $GOPATH/src/github.com/joshmedeski
-git clone -b 16-preview-support git@github.com:dwiyanrp/sesh.git
+git clone -b dev git@github.com:dwiyanrp/sesh.git
 cd sesh
 go install
 ```
