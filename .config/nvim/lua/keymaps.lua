@@ -5,11 +5,6 @@ local function map(mode, lhs, rhs, opts)
 end
 local opts = { noremap = true, silent = true }
 
--- Space as leader
-map("n", "<Space>", "", opts)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Modes
 -- 'n' -> normal mode | 'v' -> visual mode       | 't' -> terminal mode
 -- 'i' -> insert mode | 'x' -> visual block mode | 'c' -> command mode
@@ -24,24 +19,9 @@ map({ "v", "x" }, "p", '"_dP', opts)
 -- Do not copy on x
 map({ "v", "x" }, "x", '"_x', opts)
 
--- Increment/decrement
-map({ "n", "v", "x" }, "-", "<C-x>", opts)
-map({ "n", "v", "x" }, "=", "<C-a>", opts)
-
 -- Move to line beginning and end
-map({ "n", "v", "x" }, "gh", "^", { desc = "Beginning of line" })
+map({ "n", "v", "x" }, "gb", "^", { desc = "Beginning of line" })
 map({ "n", "v", "x" }, "gl", "$", { desc = "End of line" })
-
--- Center Cursors
-map("n", "J", "mzJ`z", opts)
-map("n", "<C-d>", "<C-d>zz", opts)
-map("n", "<C-u>", "<C-u>zz", opts)
-map("n", "n", "nzzzv", opts)
-map("n", "N", "Nzzzv", opts)
-
--- Better up/down
-map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
 -- Move text up and down
 map({ "v", "x" }, "J", ":move '>+1<CR>gv-gv", opts)
@@ -62,8 +42,29 @@ map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Add undo breakpoints
-map("i", ",", ",<c-g>u")
-map("i", ".", ".<c-g>u")
-map("i", ";", ";<c-g>u")
+-- Tabufline (nvhad)
+map("n", "<leader>b", "<cmd>enew<CR>", { desc = "Open new buffer new" })
 
+map("n", "<leader>x", function()
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "Close buffer" })
+
+map("n", "<tab>", function()
+  require("nvchad.tabufline").next()
+end, { desc = "Switch to next buffer" })
+
+map("n", "<S-tab>", function()
+  require("nvchad.tabufline").prev()
+end, { desc = "Switch to previous buffer" })
+
+-- Comment (nvchad)
+map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
+map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
+
+-- NvCheatsheet (nvchad)
+map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "Open NvCheatsheet" })
+
+-- NvChad Themes (nvchad)
+map("n", "<leader>th", function()
+  require("nvchad.themes").open()
+end, { desc = "Open NvChad themes" })
