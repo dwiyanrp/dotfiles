@@ -1,5 +1,30 @@
+local function load_config(package)
+  return function()
+    require(package)
+  end
+end
+
 -- NOTE: Here is where you install your plugins.
 local plugins = {
+  { -- NvChad
+    'nvim-lua/plenary.nvim',
+    { 'nvim-tree/nvim-web-devicons', lazy = true },
+    {
+      'nvchad/ui',
+      config = function()
+        require 'nvchad'
+      end,
+    },
+    {
+      'nvchad/base46',
+      lazy = true,
+      build = function()
+        require('base46').load_all_highlights()
+      end,
+    },
+    'nvchad/volt',
+  },
+
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -605,24 +630,6 @@ local plugins = {
           { name = 'path' },
         },
       }
-    end,
-  },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
     end,
   },
 
