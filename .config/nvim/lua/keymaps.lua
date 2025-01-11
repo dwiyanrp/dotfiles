@@ -5,6 +5,8 @@ local function map(mode, lhs, rhs, opts)
 end
 
 local opts = { noremap = true, silent = true }
+local nvchadthemes = require 'nvchad.themes'
+local nvchadtabufline = require 'nvchad.tabufline'
 
 -- Modes
 -- 'n' -> normal mode | 'v' -> visual mode       | 't' -> terminal mode
@@ -48,3 +50,10 @@ map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]ui
 -- Custom
 map('n', '<C-f>', '<cmd>!tmux neww ~/sesh-connect.sh<CR>', { silent = true })
 map('n', '<C-d>', '<cmd>qa<CR>')
+
+-- NvChad
+map('n', '<leader>th', nvchadthemes.open, { desc = 'Open NvChad themes' })
+map('n', '<leader>b', '<cmd>enew<CR>', { desc = 'Open new buffer' })
+map('n', '<leader>x', nvchadtabufline.close_buffer, { desc = 'Close current buffer' })
+map('n', '<tab>', nvchadtabufline.next, { desc = 'Switch to next buffer' })
+map('n', '<S-tab>', nvchadtabufline.prev, { desc = 'Switch to previous buffer' })
