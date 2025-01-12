@@ -189,11 +189,39 @@ local plugins = {
 
   { -- Autocompletion
     'saghen/blink.cmp',
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = { 'rafamadriz/friendly-snippets', 'giuxtaposition/blink-cmp-copilot' },
     version = '*',
     config = load_config 'configs.blink',
     opts_extend = { 'sources.default' },
     event = { 'InsertEnter' },
+  },
+  {
+    'zbirenbaum/copilot.lua',
+    dependencies = { 'giuxtaposition/blink-cmp-copilot' },
+    config = load_config 'configs.copilot',
+    event = 'InsertEnter',
+  },
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'zbirenbaum/copilot.lua' },
+    branch = 'main',
+    build = 'make tiktoken', -- Only on MacOS or Linux
+    cmd = {
+      'CopilotChat',
+      'CopilotChatToggle',
+      'CopilotChatDocs',
+      'CopilotChatExplain',
+      'CopilotChatFix',
+      'CopilotChatFixDiagnostic',
+      'CopilotChatCommit',
+      'CopilotChatCommitStaged',
+      'CopilotChatLoad',
+      'CopilotChatOptimize',
+      'CopilotChatReview',
+      'CopilotChatSave',
+      'CopilotChatTests',
+    },
+    config = load_config 'configs.copilot-chat',
   },
 
   -- Highlight todo, notes, etc in comments
