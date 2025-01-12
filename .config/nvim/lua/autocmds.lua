@@ -35,7 +35,7 @@ autocmd({ 'UIEnter', 'BufReadPost', 'BufNewFile' }, {
 })
 
 autocmd('VimEnter', {
-  desc = 'automatically open the nvim-tree when opening a directory',
+  desc = "automatically change directory to the file's parent when opening a file",
   callback = function()
     local is_valid_dir = function(dir)
       return vim.fn.isdirectory(dir) == 1
@@ -44,7 +44,6 @@ autocmd('VimEnter', {
     -- Check if no arguments were given or if a directory was specified.
     if #vim.fn.argv() == 0 or is_valid_dir(vim.fn.argv()[1]) then
       vim.cmd 'lcd %:p:h'
-      require('nvim-tree.api').tree.open()
     end
   end,
 })
