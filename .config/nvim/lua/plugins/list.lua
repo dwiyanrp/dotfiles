@@ -25,6 +25,42 @@ local plugins = {
     'nvchad/volt',
   },
 
+  { -- NvimTree
+    'nvim-tree/nvim-tree.lua',
+    cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
+    config = load_config 'configs.nvimtree',
+  },
+
+  { -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    event = { 'BufReadPost', 'BufNewFile' },
+    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
+    build = ':TSUpdate',
+    config = load_config 'configs.treesitter',
+  },
+
+  { -- Fuzzy Finder (files, lsp, etc)
+    'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
+    branch = '0.1.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      'nvim-treesitter/nvim-treesitter',
+      'debugloop/telescope-undo.nvim',
+    },
+    cmd = 'Telescope',
+    config = load_config 'configs.telescope',
+  },
+
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -32,32 +68,13 @@ local plugins = {
     config = load_config 'configs.gitsigns',
   },
 
-  -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `opts` key (recommended), the configuration runs
-  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
-
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    event = 'VimEnter',
     opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.opt.timeoutlen
       delay = 0,
       icons = {
-        -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
         keys = vim.g.have_nerd_font and {} or {
           Up = '<Up> ',
           Down = '<Down> ',
@@ -89,8 +106,6 @@ local plugins = {
           F12 = '<F12>',
         },
       },
-
-      -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
@@ -101,28 +116,6 @@ local plugins = {
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
-  },
-
-  { -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-      'nvim-treesitter/nvim-treesitter',
-      'debugloop/telescope-undo.nvim',
-    },
-    cmd = 'Telescope',
-    config = load_config 'configs.telescope',
   },
 
   -- LSP Plugins
@@ -363,13 +356,6 @@ local plugins = {
     end,
   },
 
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
-    config = load_config 'configs.conform',
-  },
-
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -486,6 +472,13 @@ local plugins = {
     end,
   },
 
+  { -- Autoformat
+    'stevearc/conform.nvim',
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
+    config = load_config 'configs.conform',
+  },
+
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -525,20 +518,6 @@ local plugins = {
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
-  },
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    event = { 'BufReadPost', 'BufNewFile' },
-    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
-    build = ':TSUpdate',
-    config = load_config 'configs.treesitter',
-  },
-
-  -- NvimTree
-  {
-    'nvim-tree/nvim-tree.lua',
-    cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
-    config = load_config 'configs.nvimtree',
   },
 }
 
