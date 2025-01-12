@@ -22,6 +22,7 @@ cd
 git clone git@github.com:dwiyanrp/dotfiles.git
 ln -sf dotfiles/.customzsh
 ln -sf dotfiles/sesh-connect.sh
+ln -sf ~/dotfiles/vscode/settings.json /Users/dwiyanrp/Library/Application\ Support/Code/User/settings.json
 ```
 
 add the following to your .zshrc
