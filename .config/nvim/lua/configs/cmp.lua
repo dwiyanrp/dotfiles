@@ -1,3 +1,5 @@
+dofile(vim.g.base46_cache .. 'cmp')
+
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 luasnip.config.setup {}
@@ -17,6 +19,8 @@ cmp.setup {
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-y>'] = cmp.mapping.confirm { select = true },
     ['<C-Space>'] = cmp.mapping.complete {},
+    ['<C-e>'] = cmp.mapping.close(),
+
     ['<C-l>'] = cmp.mapping(function()
       if luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
@@ -27,6 +31,30 @@ cmp.setup {
         luasnip.jump(-1)
       end
     end, { 'i', 's' }),
+
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    },
   },
   sources = {
     {
@@ -35,6 +63,8 @@ cmp.setup {
     },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'nvim_lua' },
     { name = 'path' },
   },
 }
