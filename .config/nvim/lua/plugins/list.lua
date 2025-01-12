@@ -167,6 +167,10 @@ local plugins = {
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      {
+        'supermaven-inc/supermaven-nvim',
+        config = load_config 'configs.supermaven',
+      },
     },
     config = load_config 'configs.cmp',
   },
