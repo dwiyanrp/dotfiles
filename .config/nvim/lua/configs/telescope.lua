@@ -48,6 +48,10 @@ map('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 map('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 map('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
+map('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
+map('n', '<leader>fo', builtin.oldfiles, { desc = '[F]ind [O]ldfiles' })
+map('n', '<leader>fw', builtin.live_grep, { desc = '[F]ind [W]ord' })
+
 map('n', '<leader>/', function()
   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
