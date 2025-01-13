@@ -20,6 +20,7 @@ alias cd-dwiyanrp="cd $GOPATH/src/github.com/dwiyanrp"
 alias cd-ghostty-themes="cd /Applications/Ghostty.app/Contents/Resources/ghostty/themes/"
 
 # alias nvim
+alias nvimf="nvim -c ':Telescope find_files'"
 alias nvim-customzsh="nvim ~/.customzsh && source ~/.customzsh"
 alias nvim-ghostty="nvim ~/.config/ghostty/config"
 alias nvim-sesh="nvim ~/.config/sesh/sesh.toml"
