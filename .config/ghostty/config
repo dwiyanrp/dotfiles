@@ -10,9 +10,8 @@ font-family = JetBrainsMono NFM Bold
 font-size = 14
 
 # window
-window-height = 71
-window-width = 140
-window-save-state = always
+window-height = 34
+window-width = 110
 
 # mouse
 mouse-hide-while-typing = true

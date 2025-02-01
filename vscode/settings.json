@@ -13,7 +13,6 @@
   "editor.tabSize": 2,
   "editor.fontSize": 14,
   "editor.renderWhitespace": "all",
-  "editor.cursorBlinking": "solid",
   // Autoformat
   "editor.formatOnSave": true,
   "[jsonc]": {
@@ -21,41 +20,5 @@
   },
   "[lua]": {
     "editor.defaultFormatter": "JohnnyMorganz.stylua"
-  },
-  // Nvim start
-  "vim.easymotion": true,
-  "vim.incsearch": true,
-  "vim.useSystemClipboard": true,
-  "vim.useCtrlKeys": true,
-  "vim.hlsearch": true,
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
-    }
-  ],
-  "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      "before": ["<leader>", "d"],
-      "after": ["d", "d"]
-    },
-    {
-      "before": ["<C-n>"],
-      "commands": [":nohl"]
-    },
-    {
-      "before": ["K"],
-      "commands": ["lineBreakInsert"],
-      "silent": true
-    }
-  ],
-  "vim.leader": "<space>",
-  "vim.handleKeys": {
-    "<C-a>": false,
-    "<C-f>": false
-  },
-  "extensions.experimental.affinity": {
-    "vscodevim.vim": 1
-  },
-  "editor.renderControlCharacters": false
+  }
 }
