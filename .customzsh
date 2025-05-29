@@ -25,6 +25,7 @@ alias nvim-customzsh="nvim ~/.customzsh && source ~/.customzsh"
 alias nvim-ghostty="nvim ~/.config/ghostty/config"
 alias nvim-sesh="nvim ~/.config/sesh/sesh.toml"
 alias nvim-tmux="nvim ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf"
+alias nvim-nvim="nvim ~/.config/nvim"
 
 alias clear-nvim="rm -rf ~/.local/state/nvim && rm -rf ~/.local/share/nvim"
 

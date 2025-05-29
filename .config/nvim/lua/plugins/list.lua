@@ -8,13 +8,7 @@ end
 local plugins = {
   { -- NvChad
     'nvim-lua/plenary.nvim',
-    { 'nvim-tree/nvim-web-devicons', lazy = true },
-    {
-      'nvchad/ui',
-      config = function()
-        require 'nvchad'
-      end,
-    },
+
     {
       'nvchad/base46',
       lazy = true,
@@ -22,13 +16,67 @@ local plugins = {
         require('base46').load_all_highlights()
       end,
     },
+
+    {
+      'nvchad/ui',
+      config = function()
+        require 'nvchad'
+      end,
+    },
+
     'nvchad/volt',
+    'nvzone/menu',
+    { 'nvzone/minty', cmd = { 'Huefy', 'Shades' } },
+
+    {
+      'nvim-tree/nvim-web-devicons',
+      opts = function()
+        dofile(vim.g.base46_cache .. 'devicons')
+        return { override = require 'nvchad.icons.devicons' }
+      end,
+    },
+  },
+
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    event = 'User FilePost',
+    opts = {
+      indent = { char = '│', highlight = 'IblChar' },
+      scope = { char = '│', highlight = 'IblScopeChar' },
+    },
+    config = function(_, opts)
+      dofile(vim.g.base46_cache .. 'blankline')
+
+      local hooks = require 'ibl.hooks'
+      hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+      require('ibl').setup(opts)
+
+      dofile(vim.g.base46_cache .. 'blankline')
+    end,
   },
 
   { -- NvimTree
     'nvim-tree/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
     config = load_config 'configs.nvimtree',
+  },
+
+  { -- Useful plugin to show you pending keybinds.
+    'folke/which-key.nvim',
+    event = 'VimEnter',
+    opts = require 'opts.whichkey',
+  },
+
+  { -- Autoformat
+    'stevearc/conform.nvim',
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
+    config = load_config 'configs.conform',
+  },
+
+  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    config = load_config 'configs.gitsigns',
   },
 
   { -- Highlight, edit, and navigate code
@@ -61,28 +109,12 @@ local plugins = {
     config = load_config 'configs.telescope',
   },
 
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    config = load_config 'configs.gitsigns',
-  },
-
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    opts = require 'opts.whichkey',
-  },
-
   -- LSP Plugins
   {
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-      },
-    },
+    'mason-org/mason.nvim',
+    cmd = { 'Mason', 'MasonInstall', 'MasonUpdate' },
+    config = load_config 'configs.mason',
   },
-  { 'Bilal2453/luvit-meta', lazy = true },
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -94,10 +126,15 @@ local plugins = {
     config = load_config 'configs.lspconfig',
   },
   {
-    'williamboman/mason.nvim',
-    cmd = { 'Mason', 'MasonInstall', 'MasonInstallAll', 'MasonUpdate' },
-    config = load_config 'configs.mason',
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+      },
+    },
   },
+  { 'Bilal2453/luvit-meta', lazy = true },
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -129,13 +166,6 @@ local plugins = {
       },
     },
     config = load_config 'configs.cmp',
-  },
-
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
-    config = load_config 'configs.conform',
   },
 }
 
