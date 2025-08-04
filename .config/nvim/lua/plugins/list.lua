@@ -82,36 +82,6 @@ local plugins = {
     config = load_config 'configs.gitsigns',
   },
 
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    event = { 'BufReadPost', 'BufNewFile' },
-    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
-    build = ':TSUpdate',
-    config = load_config 'configs.treesitter',
-  },
-
-  { -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-      'nvim-treesitter/nvim-treesitter',
-      'debugloop/telescope-undo.nvim',
-    },
-    cmd = 'Telescope',
-    config = load_config 'configs.telescope',
-  },
-
   -- LSP Plugins
   {
     'mason-org/mason.nvim',
@@ -165,6 +135,36 @@ local plugins = {
       'hrsh7th/cmp-path',
     },
     config = load_config 'configs.cmp',
+  },
+
+  { -- Fuzzy Finder (files, lsp, etc)
+    'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
+    branch = '0.1.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      'nvim-treesitter/nvim-treesitter',
+      'debugloop/telescope-undo.nvim',
+    },
+    cmd = 'Telescope',
+    config = load_config 'configs.telescope',
+  },
+
+  { -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    event = { 'BufReadPost', 'BufNewFile' },
+    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
+    build = ':TSUpdate',
+    config = load_config 'configs.treesitter',
   },
 }
 
