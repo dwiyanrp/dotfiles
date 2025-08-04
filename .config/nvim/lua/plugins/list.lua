@@ -55,26 +55,29 @@ local plugins = {
     end,
   },
 
-  { -- NvimTree
+  -- file managing , picker etc
+  {
     'nvim-tree/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
     config = load_config 'configs.nvimtree',
   },
 
-  { -- Useful plugin to show you pending keybinds.
+  {
     'folke/which-key.nvim',
     event = 'VimEnter',
     opts = require 'opts.whichkey',
   },
 
-  { -- Autoformat
+  -- formatting!
+  {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     config = load_config 'configs.conform',
   },
 
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+  -- git stuff
+  {
     'lewis6991/gitsigns.nvim',
     config = load_config 'configs.gitsigns',
   },
