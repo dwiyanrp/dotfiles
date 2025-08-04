@@ -164,32 +164,15 @@ local plugins = {
     event = { 'BufReadPost', 'BufNewFile' },
     cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
     build = ':TSUpdate',
-    config = load_config 'configs.treesitter',
+    opts = function()
+      return require 'opts.treesitter'
+    end,
+    config = function(_, opts)
+      require('nvim-treesitter.configs').setup(opts)
+    end,
   },
 }
 
 return {
   plugins = plugins,
-  ts_parsers = {
-    'bash',
-    'css',
-    'dart',
-    'elixir',
-    'gitcommit',
-    'go',
-    'html',
-    'java',
-    'javascript',
-    'json',
-    'lua',
-    'markdown',
-    'markdown_inline', -- markdown code blocks
-    'python',
-    'ruby',
-    'rust',
-    'typescript',
-    'vim',
-    'vimdoc',
-    'yaml',
-  },
 }
