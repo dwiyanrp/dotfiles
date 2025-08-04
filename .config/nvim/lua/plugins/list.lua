@@ -55,58 +55,31 @@ local plugins = {
     end,
   },
 
-  { -- NvimTree
+  -- file managing , picker etc
+  {
     'nvim-tree/nvim-tree.lua',
     cmd = { 'NvimTreeToggle', 'NvimTreeFocus' },
     config = load_config 'configs.nvimtree',
   },
 
-  { -- Useful plugin to show you pending keybinds.
+  {
     'folke/which-key.nvim',
     event = 'VimEnter',
     opts = require 'opts.whichkey',
   },
 
-  { -- Autoformat
+  -- formatting!
+  {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     config = load_config 'configs.conform',
   },
 
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+  -- git stuff
+  {
     'lewis6991/gitsigns.nvim',
     config = load_config 'configs.gitsigns',
-  },
-
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    event = { 'BufReadPost', 'BufNewFile' },
-    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
-    build = ':TSUpdate',
-    config = load_config 'configs.treesitter',
-  },
-
-  { -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-      'nvim-treesitter/nvim-treesitter',
-      'debugloop/telescope-undo.nvim',
-    },
-    cmd = 'Telescope',
-    config = load_config 'configs.telescope',
   },
 
   -- LSP Plugins
@@ -163,30 +136,43 @@ local plugins = {
     },
     config = load_config 'configs.cmp',
   },
+
+  { -- Fuzzy Finder (files, lsp, etc)
+    'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
+    branch = '0.1.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      'nvim-treesitter/nvim-treesitter',
+      'debugloop/telescope-undo.nvim',
+    },
+    cmd = 'Telescope',
+    config = load_config 'configs.telescope',
+  },
+
+  { -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    event = { 'BufReadPost', 'BufNewFile' },
+    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
+    build = ':TSUpdate',
+    opts = function()
+      return require 'opts.treesitter'
+    end,
+    config = function(_, opts)
+      require('nvim-treesitter.configs').setup(opts)
+    end,
+  },
 }
 
 return {
   plugins = plugins,
-  ts_parsers = {
-    'bash',
-    'css',
-    'dart',
-    'elixir',
-    'gitcommit',
-    'go',
-    'html',
-    'java',
-    'javascript',
-    'json',
-    'lua',
-    'markdown',
-    'markdown_inline', -- markdown code blocks
-    'python',
-    'ruby',
-    'rust',
-    'typescript',
-    'vim',
-    'vimdoc',
-    'yaml',
-  },
 }
