@@ -96,7 +96,9 @@ local plugins = {
       { 'j-hui/fidget.nvim', opts = {} },
       { 'hrsh7th/cmp-nvim-lsp' },
     },
-    config = load_config 'configs.lspconfig',
+    config = function()
+      require('configs.lspconfig').defaults()
+    end,
   },
   {
     'folke/lazydev.nvim',

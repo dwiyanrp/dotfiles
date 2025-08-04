@@ -1,96 +1,89 @@
--- LSP keybindings and setup
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
-  callback = function(event)
-    local map = function(keys, func, desc, mode)
-      vim.keymap.set(mode or 'n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-    end
+local M = {}
+local map = vim.keymap.set
 
-    -- Keybindings
-    map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-    map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-    map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-    map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-    map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-    map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-    map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-    map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-    map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
-    -- Document highlight on cursor hold
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-      local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
-      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.document_highlight,
-      })
-
-      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.clear_references,
-      })
-
-      vim.api.nvim_create_autocmd('LspDetach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
-        callback = function(event2)
-          vim.lsp.buf.clear_references()
-          vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
-        end,
-      })
-    end
-  end,
-})
-
--- Diagnostic symbols (if using Nerd Fonts)
-if vim.g.have_nerd_font then
-  local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
-  local diagnostic_signs = {}
-  for type, icon in pairs(signs) do
-    diagnostic_signs[vim.diagnostic.severity[type]] = icon
+-- export on_attach & capabilities
+M.on_attach = function(_, bufnr)
+  local function opts(desc)
+    return { buffer = bufnr, desc = 'LSP ' .. desc }
   end
-  vim.diagnostic.config { signs = { text = diagnostic_signs } }
+
+  map('n', 'gD', vim.lsp.buf.declaration, opts 'Go to declaration')
+  map('n', 'gd', vim.lsp.buf.definition, opts 'Go to definition')
+  map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts 'Add workspace folder')
+  map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts 'Remove workspace folder')
+
+  map('n', '<leader>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, opts 'List workspace folders')
+
+  map('n', '<leader>D', vim.lsp.buf.type_definition, opts 'Go to type definition')
+  map('n', '<leader>ra', require 'nvchad.lsp.renamer', opts 'NvRenamer')
 end
 
--- LSP capabilities and server setup
-local capabilities = vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), require('cmp_nvim_lsp').default_capabilities())
+-- disable semanticTokens
+M.on_init = function(client, _)
+  if client.supports_method 'textDocument/semanticTokens' then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
+end
 
-local servers = {
-  lua_ls = {
-    settings = {
-      Lua = { completion = { callSnippet = 'Replace' } },
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+
+M.capabilities.textDocument.completion.completionItem = {
+  documentationFormat = { 'markdown', 'plaintext' },
+  snippetSupport = true,
+  preselectSupport = true,
+  insertReplaceSupport = true,
+  labelDetailsSupport = true,
+  deprecatedSupport = true,
+  commitCharactersSupport = true,
+  tagSupport = { valueSet = { 1 } },
+  resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits',
     },
   },
-  gopls = {
-    cmd = { 'gopls' },
-    filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-    root_dir = require('lspconfig.util').root_pattern('go.work', 'go.mod', '.git'),
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
+}
+
+M.defaults = function()
+  dofile(vim.g.base46_cache .. 'lsp')
+  require('nvchad.lsp').diagnostic_config()
+
+  vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(args)
+      M.on_attach(_, args.buf)
+    end,
+  })
+
+  local lua_lsp_settings = {
+    Lua = {
+      runtime = { version = 'LuaJIT' },
+      workspace = {
+        library = {
+          vim.fn.expand '$VIMRUNTIME/lua',
+          vim.fn.stdpath 'data' .. '/lazy/ui/nvchad_types',
+          vim.fn.stdpath 'data' .. '/lazy/lazy.nvim/lua/lazy',
+          '${3rd}/luv/library',
         },
-        completeUnimported = true,
-        usePlaceholders = true,
       },
     },
-  },
-}
+  }
 
--- Mason setup
-require('mason').setup()
-require('mason-tool-installer').setup {
-  ensure_installed = vim.list_extend(vim.tbl_keys(servers or {}), { 'stylua' }), -- Add 'stylua' for Lua formatting
-}
+  -- Support 0.10 temporarily
 
-require('mason-lspconfig').setup {
-  handlers = {
-    function(server_name)
-      local server = servers[server_name] or {}
-      server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-      require('lspconfig')[server_name].setup(server)
-    end,
-  },
-}
+  if vim.lsp.config then
+    vim.lsp.config('*', { capabilities = M.capabilities, on_init = M.on_init })
+    vim.lsp.config('lua_ls', { settings = lua_lsp_settings })
+    vim.lsp.enable 'lua_ls'
+  else
+    require('lspconfig').lua_ls.setup {
+      capabilities = M.capabilities,
+      on_init = M.on_init,
+      settings = lua_lsp_settings,
+    }
+  end
+end
+
+return M
