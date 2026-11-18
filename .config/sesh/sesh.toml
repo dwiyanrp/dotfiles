@@ -3,16 +3,15 @@ preview_command = "eza -l --git --icons --no-permissions --color=always --no-fil
 
 [[session]]
 name = "config"
-path = "~/.config"
+path = "$HOME/.config"
 with_child = true
 
 [[session]]
-name = "go/github/dwiyanrp"
-path = "~/c/go/src/github.com/dwiyanrp"
+name = "go"
+path = "$HOME/c/go/src"
 with_child = true
 
 [[session]]
 name = "js"
-path = "~/c/js"
+path = "$HOME/c/js"
 with_child = true
-

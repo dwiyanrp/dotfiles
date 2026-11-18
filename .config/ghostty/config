@@ -1,9 +1,9 @@
 # theme
-theme = Afterglow
+theme = Horizon
 background-opacity = 0.95
-background = #1f2430
-palette = 4=#3f953a
-palette = 6=#8ef9fd
+#background = #1f2430
+#palette = 4=#3f953a
+#palette = 6=#8ef9fd
 
 # font
 font-family = JetBrainsMono NFM Bold
