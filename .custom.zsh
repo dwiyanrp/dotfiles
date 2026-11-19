@@ -7,7 +7,7 @@ source_if() { [[ -f "$1" ]] && source "$1"; }
 # ═══════════════════════════════════════════════════════════════════════════
 # Environment Variables
 # ═══════════════════════════════════════════════════════════════════════════
-export GOPATH="$HOME/c/go"
+export GOPATH="$HOME/.local/share/go"
 export PNPM_HOME="$HOME/Library/pnpm"
 export BUN_INSTALL="$HOME/.bun"
 
@@ -30,11 +30,10 @@ path_add "$HOME/.kilo/bin"
 # Key Bindings
 # ═══════════════════════════════════════════════════════════════════════════
 
-zle     -N            sesh-sessions
-bindkey -M emacs '^F' sesh-sessions
-bindkey -M vicmd '^F' sesh-sessions
-bindkey -M viins '^F' sesh-sessions
-bindkey '^E' sage-accept        # Ctrl+E — accept whole suggestion
+zle     -N            tmux-connect
+bindkey -M emacs '^F' tmux-connect
+bindkey -M vicmd '^F' tmux-connect
+bindkey -M viins '^F' tmux-connect
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Aliases
@@ -81,18 +80,25 @@ echo-path() {
 
 ln-config() {
   mkdir -p "$HOME/.config"
-  ln -sf "$HOME/dotfiles/.config/tmux"    "$HOME/.config"
-  ln -sf "$HOME/dotfiles/.config/sesh"    "$HOME/.config"
-  ln -sf "$HOME/dotfiles/.config/ghostty" "$HOME/.config"
-  ln -sf "$HOME/dotfiles/.config/nvim"    "$HOME/.config"
+  ln -sf "$HOME/dotfiles/.config/tmux"              "$HOME/.config"
+  ln -sf "$HOME/dotfiles/.config/tmux-sessionizer"  "$HOME/.config"
+  ln -sf "$HOME/dotfiles/.config/sesh"              "$HOME/.config"
+  ln -sf "$HOME/dotfiles/.config/ghostty"           "$HOME/.config"
+  ln -sf "$HOME/dotfiles/.config/nvim"              "$HOME/.config"
 }
 
-sesh-sessions() {
+re-source() {
+    source "$HOME/.zshrc"
+}
+
+tmux-connect() { sesh-connect } # sesh-connect | tmux-sessionizer-connect
+
+sesh-connect() {
   {
     exec </dev/tty
     exec <&1
     local selected_session
-    selected_session=$(sesh list -tc --icons | fzf-tmux -p 80%,70% \
+    selected_session=$(sesh list -tc --icons --hide-attached | fzf-tmux -p 80%,70% \
         --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
         --header '  ^a all ^t tmux ^g configs ^d tmux kill ^f find' \
         --bind 'tab:down,btab:up' \
@@ -103,10 +109,20 @@ sesh-sessions() {
         --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list -tc --icons)' \
         --preview-window 'right:55%' \
         --preview 'sesh preview {}' \
+        --reverse \
     )
     zle reset-prompt > /dev/null 2>&1 || true
     [[ -z "$selected_session" ]] && return
     sesh connect "$selected_session"
+  }
+}
+
+tmux-sessionizer-connect() {
+  {
+    exec </dev/tty
+    exec <&1
+    /Users/drp/c/temp/tmux-sessionizer/tmux-sessionizer
+    zle reset-prompt > /dev/null 2>&1 || true
   }
 }
 

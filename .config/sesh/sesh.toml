@@ -4,14 +4,14 @@ preview_command = "eza -l --git --icons --no-permissions --color=always --no-fil
 [[session]]
 name = "config"
 path = "$HOME/.config"
-with_child = true
+with_children = true
 
 [[session]]
 name = "go"
-path = "$HOME/c/go/src"
-with_child = true
+path = "$HOME/c/go"
+with_children = true
 
 [[session]]
 name = "js"
 path = "$HOME/c/js"
-with_child = true
+with_children = true
