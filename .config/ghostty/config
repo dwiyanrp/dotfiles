@@ -1,6 +1,6 @@
 # theme
 theme = Horizon
-background-opacity = 0.95
+background-opacity = 0.90
 #background = #1f2430
 #palette = 4=#3f953a
 #palette = 6=#8ef9fd
@@ -8,10 +8,6 @@ background-opacity = 0.95
 # font
 font-family = JetBrainsMono NFM Bold
 font-size = 14
-
-# window
-window-height = 34
-window-width = 110
 
 # mouse
 mouse-hide-while-typing = true
